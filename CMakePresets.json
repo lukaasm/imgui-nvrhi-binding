@@ -1,8 +1,8 @@
 {
-    "version": 7,
+    "version": 3,
     "cmakeMinimumRequired": {
         "major": 3,
-        "minor": 28,
+        "minor": 21,
         "patch": 0
     },
     "configurePresets": [
@@ -39,13 +39,13 @@
     ],
     "buildPresets": [
         {
-            "name": "vs-win64-debug",
+            "name": "ninja-win64-debug",
             "displayName": "Debug",
             "configurePreset": "ninja-win64",
             "configuration": "Debug"
         },
         {
-            "name": "vs-win64-release",
+            "name": "ninja-win64-release",
             "displayName": "Release",
             "configurePreset": "ninja-win64",
             "configuration": "Release"

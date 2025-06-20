@@ -1,52 +1,44 @@
-cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.21)
 
-project(imgui-nvrhi)
-
-find_package(imgui CONFIG REQUIRED)
-find_package(nvrhi CONFIG REQUIRED)
-
-add_library(imgui-nvrhi STATIC imgui_nvrhi_binding.cpp )
-target_link_libraries(imgui-nvrhi PUBLIC
-    imgui::imgui
-    nvrhi
+project(ImGuiNVRHI
+    VERSION 1.0.0
+    LANGUAGES CXX
 )
 
-include(CMakePackageConfigHelpers)
-include(GNUInstallDirs)
+add_library(${PROJECT_NAME} STATIC src/imgui_nvrhi_binding.cpp)
 
-install(
-    FILES imgui_nvrhi_binding.h
-    DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
+target_include_directories(
+    ${PROJECT_NAME}
+    PRIVATE src
+    PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
 
 install(
-    TARGETS imgui-nvrhi
-    EXPORT imguinvrhiTargets
-    INCLUDES DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
+    TARGETS ${PROJECT_NAME}
+    EXPORT ${PROJECT_NAME}Targets
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
 )
 
-configure_file(cmake/imgui-nvrhi-config.cmake.in imgui-nvrhi-config.cmake @ONLY)
+install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
 write_basic_package_version_file(
-    imgui-nvrhi-config-version.cmake
-    COMPATIBILITY SameMinorVersion
-)
+    "${PROJECT_NAME}ConfigVersion.cmake"
+    VERSION ${PROJECT_VERSION}
+    COMPATIBILITY SameMajorVersion)
 
-set(
-    IMGUI_NVRHI_INSTALL_CMAKEDIR "${CMAKE_INSTALL_LIBDIR}/cmake/imgui-nvrhi"
-    CACHE STRING "CMake package config location relative to the install prefix"
-)
-mark_as_advanced(SIMDUTF_INSTALL_CMAKEDIR)
-
-install(
-    FILES
-    "${PROJECT_BINARY_DIR}/imgui-nvrhi-config.cmake"
-    "${PROJECT_BINARY_DIR}/imgui-nvrhi-config-version.cmake"
-    DESTINATION "${IMGUI_NVRHI_INSTALL_CMAKEDIR}"
+configure_package_config_file(
+    "${CMAKE_CURRENT_LIST_DIR}/cmake/ProjectNameConfig.cmake.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
+    INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
 )
 
 install(
-    EXPORT imguinvrhiTargets
-    NAMESPACE imgui-nvrhi::
-    DESTINATION "${IMGUI_NVRHI_INSTALL_CMAKEDIR}"
+    EXPORT ${PROJECT_NAME}Targets
+    FILE ${PROJECT_NAME}Targets.cmake
+    NAMESPACE ${PROJECT_NAME}::
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
 )
