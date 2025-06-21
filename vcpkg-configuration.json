@@ -1,17 +1,17 @@
 {
-    "default-registry": {
-        "kind": "git",
-        "repository": "https://github.com/microsoft/vcpkg",
-        "baseline": "f6729a3ac3bfdefc999aa8e3664f8014370886b8"
-    },
-    "registries": [
-        {
-            "kind": "git",
-            "repository": "https://github.com/lukaasm/vcpkg-registry",
-            "baseline": "0a91a938d2d547258a31ead56fe0c9cf262c3b43",
-            "packages": [
-                "nvrhi"
-            ]
-        }
-    ]
+  "default-registry": {
+    "kind": "git",
+    "repository": "https://github.com/microsoft/vcpkg",
+    "baseline": "a42af01b72c28a8e1d7b48107b33e4f286a55ef6"
+  },
+  "registries": [
+    {
+      "kind": "git",
+      "repository": "https://github.com/lukaasm/vcpkg-registry",
+      "baseline": "069223add61f4d34d9ecada795c883ad8261519c",
+      "packages": [
+        
+      ]
+    }
+  ]
 }
