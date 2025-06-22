@@ -477,7 +477,7 @@ static ImGui_ImplNVRHI* GetBackendRendererImpl()
     return (ImGui_ImplNVRHI*)io.BackendRendererUserData;
 }
 
-void ImGui_ImplNVRHI_Init(nvrhi::IDevice* device)
+bool ImGui_ImplNVRHI_Init(nvrhi::IDevice* device)
 {
     ImGuiIO& io = ImGui::GetIO();
     IMGUI_CHECKVERSION();
@@ -488,7 +488,12 @@ void ImGui_ImplNVRHI_Init(nvrhi::IDevice* device)
     io.BackendRendererName = "imgui_impl_nvrhi";
     io.BackendFlags |= ImGuiBackendFlags_RendererHasVtxOffset;  // We can honor the ImDrawCmd::VtxOffset field, allowing for large meshes.
 
-    GetBackendRendererImpl()->Init(device);
+    return GetBackendRendererImpl()->Init(device);
+}
+
+bool ImGui_ImplNVRHI_UpdateFontTexture()
+{
+    return GetBackendRendererImpl()->UpdateFontTexture();
 }
 
 void ImGui_ImplNVRHI_RenderDrawData(ImDrawData* draw_data, nvrhi::IFramebuffer* buffer)
